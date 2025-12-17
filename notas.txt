@@ -1,0 +1,24 @@
+PARA LA EXPLOTACIÓN DE SMS CON PYTHON
+
+INSTALAR F-DROID  
+
+EN F-DROID , INSTALAR TERMUX Y TERMUX:API
+
+# Actualizar paquetes
+pkg update && pkg upgrade -y
+
+# Instalar dependencias
+pkg install python -y
+pkg install termux-api -y
+pip install flask
+
+# Conceder permisos a Termux
+echo "🔐 Concediendo permisos..."
+termux-setup-storage
+
+
+EN APPS DAR ACCESO A PERMISOS RESTRINGIDOS Y HABILITAR SMS
+
+
+
+CORRER DESDE TERMUX SERVER.PY
