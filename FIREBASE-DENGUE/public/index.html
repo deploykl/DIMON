@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Dashboard</title>
+    <style>
+        :root {
+            --primary: #1e3c72;
+            --primary-light: #2a5298;
+            --accent: #00b4d8;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border: #e9ecef;
+            --shadow: rgba(30, 60, 114, 0.08);
+            --gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            margin-bottom: 40px;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+        
+        .dashboard-wrapper {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+        }
+        
+        .dashboard-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .title-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            background: var(--light);
+            overflow: hidden;
+        }
+        
+        .iframe-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            z-index: 10;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .powerbi-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 32px;
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+        
+        .stat-card {
+            padding: 24px;
+            background: var(--light);
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+        }
+        
+        .stat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .stat-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent);
+        }
+        
+        @media (max-width: 1024px) {
+            .iframe-container {
+                height: 600px;
+            }
+            
+            h1 {
+                font-size: 2.3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .iframe-container {
+                height: 500px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+                padding: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .dashboard-header {
+                padding: 20px;
+            }
+            
+            .iframe-container {
+                height: 400px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-icon">PB</div>
+                    <span>Power BI Analytics</span>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-secondary" id="toggleStats">
+                        <i class="fas fa-chart-bar"></i> Info
+                    </button>
+                </div>
+            </div>
+           
+        </header>
+        
+        <main>
+            <div class="dashboard-wrapper">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">
+                        <div class="title-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <span>Análisis de Datos - Informe Interactivo</span>
+                    </div>
+                    <div class="controls">
+                        <button class="btn btn-secondary" id="refreshBtn">
+                            <i class="fas fa-redo"></i> Actualizar
+                        </button>
+                        <button class="btn btn-primary" id="fullscreenBtn">
+                            <i class="fas fa-expand"></i> Pantalla Completa
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="iframe-container">
+                    <div class="iframe-loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Cargando dashboard de Power BI...</p>
+                    </div>
+                    <iframe 
+                        class="powerbi-iframe" 
+                        id="powerbiFrame"
+                        src="https://app.powerbi.com/view?r=eyJrIjoiODhjODhjN2ItMTFlYy00M2VjLWE2ZDAtNjAzODc1MzMwMmE1IiwidCI6Ijc5MDVjMWZjLTkzM2MtNDUyYS04YjgzLWIyZTU2NDU1ZDE2YSIsImMiOjR9"
+                        title="Power BI Dashboard"
+                        allowfullscreen
+                        loading="eager">
+                    </iframe>
+                </div>
+                
+                <div class="stats" id="statsSection">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </div>
+                        <h3 class="stat-title">Interactividad Total</h3>
+                        <p class="stat-desc">Haga clic en cualquier gráfico o filtro para explorar los datos en profundidad y descubrir insights.</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-filter"></i>
+                        </div>
+                        <h3 class="stat-title">Filtros Dinámicos</h3>
+                        <p class="stat-desc">Utilice los filtros interactivos para personalizar la vista y analizar diferentes segmentos de datos.</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="stat-title">Actualización en Tiempo Real</h3>
+                        <p class="stat-desc">Los datos se actualizan automáticamente según la programación configurada en Power BI Service.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+           
+            <p>© 2026 Power BI Dashboard | Plataforma de Visualización de Datos</p>
+            <p>DGOS-DIMON</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const powerbiFrame = document.getElementById('powerbiFrame');
+            const loading = document.getElementById('loading');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const toggleStatsBtn = document.getElementById('toggleStats');
+            const statsSection = document.getElementById('statsSection');
+            
+            // Ocultar loading cuando el iframe cargue
+            powerbiFrame.addEventListener('load', function() {
+                setTimeout(() => {
+                    loading.style.opacity = '0';
+                    loading.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 300);
+                }, 500);
+            });
+            
+            // Botón para actualizar
+            refreshBtn.addEventListener('click', function() {
+                loading.style.display = 'flex';
+                loading.style.opacity = '1';
+                powerbiFrame.contentWindow.location.reload();
+                
+                // Animación del botón
+                refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando';
+                setTimeout(() => {
+                    refreshBtn.innerHTML = '<i class="fas fa-redo"></i> Actualizar';
+                }, 1500);
+            });
+            
+            // Botón para pantalla completa
+            fullscreenBtn.addEventListener('click', function() {
+                const container = document.querySelector('.iframe-container');
+                
+                if (!document.fullscreenElement) {
+                    if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Salir Pantalla Completa';
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Pantalla Completa';
+                }
+            });
+            
+            // Toggle sección de estadísticas
+            toggleStatsBtn.addEventListener('click', function() {
+                statsSection.classList.toggle('hidden');
+                if (statsSection.style.display === 'none') {
+                    statsSection.style.display = 'grid';
+                    toggleStatsBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Ocultar Info';
+                } else {
+                    statsSection.style.display = 'none';
+                    toggleStatsBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Mostrar Info';
+                }
+            });
+            
+            // Detectar salida de pantalla completa
+            document.addEventListener('fullscreenchange', updateFullscreenButton);
+            document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+            
+            function updateFullscreenButton() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Pantalla Completa';
+                }
+            }
+            
+            // Ajustar altura del iframe dinámicamente
+            function adjustIframeHeight() {
+                const iframeContainer = document.querySelector('.iframe-container');
+                const windowHeight = window.innerHeight;
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const dashboardHeaderHeight = document.querySelector('.dashboard-header').offsetHeight;
+                
+                const newHeight = windowHeight - headerHeight - dashboardHeaderHeight - 180;
+                if (newHeight > 400) {
+                    iframeContainer.style.height = `${newHeight}px`;
+                }
+            }
+            
+            // Ajustar altura al cargar y redimensionar
+            window.addEventListener('load', adjustIframeHeight);
+            window.addEventListener('resize', adjustIframeHeight);
+        });
+    </script>
+</body>
+</html>

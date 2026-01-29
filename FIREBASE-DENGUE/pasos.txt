@@ -1,0 +1,66 @@
+[DIEMTERCERO]
+┖[D:\PROGRAMACION\FIREBASE]> firebase init
+
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\PROGRAMACION\FIREBASE
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+✔ Are you ready to proceed? Yes
+✔ Which Firebase features do you want to set up for this directory? Press Space to select features, then Enter to confirm your choices. Hosting: Set up
+deployments for static web apps
+
+=== Project Setup
+
+First, let's associate this project directory with a Firebase project.
+You can create multiple project aliases by running firebase use --add,
+
+i  Using project dimon-dengue (dimon-dengue) .
+
+=== Hosting Setup
+
+Your public directory is the folder (relative to your project directory) that
+will contain Hosting assets to be uploaded with firebase deploy. If you
+have a build process for your assets, use your build's output directory.
+
+✔ What do you want to use as your public directory? public
+✔ Configure as a single-page app (rewrite all urls to /index.html)? Yes
+✔ Set up automatic builds and deploys with GitHub? No
+✔ File public/index.html already exists. Overwrite? No
+i  Skipping write of public/index.html
+
++  Wrote configuration info to firebase.json
++  Wrote project information to .firebaserc
+
++  Firebase initialization complete!
+
+┏[DIEMTERCERO]
+┖[D:\PROGRAMACION\FIREBASE]> firebase deploy
+
+=== Deploying to 'dimon-dengue'...
+
+i  deploying hosting
+i  hosting[dimon-dengue]: beginning deploy...
+i  hosting[dimon-dengue]: found 2 files in public
++  hosting[dimon-dengue]: file upload complete
+i  hosting[dimon-dengue]: finalizing version...
++  hosting[dimon-dengue]: version finalized
+i  hosting[dimon-dengue]: releasing new version...
++  hosting[dimon-dengue]: release complete
+
++  Deploy complete!
+
+Project Console: https://console.firebase.google.com/project/dimon-dengue/overview
+Hosting URL: https://dimon-dengue.web.app
+
+┏[DIEMTERCERO]
+┖[D:\PROGRAMACION\FIREBASE]>
