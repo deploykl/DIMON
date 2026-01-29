@@ -4,393 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Power BI Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --primary: #1e3c72;
-            --primary-light: #2a5298;
-            --accent: #00b4d8;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --border: #e9ecef;
-            --shadow: rgba(30, 60, 114, 0.08);
-            --gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        }
-        
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--dark);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            margin-bottom: 40px;
-        }
-        
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-        
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--gradient);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            background: var(--gradient);
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            line-height: 1.2;
-            margin-bottom: 10px;
         }
         
-        .subtitle {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 600px;
-        }
-        
-        .dashboard-wrapper {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px var(--shadow);
-            margin-bottom: 40px;
-        }
-        
-        .dashboard-header {
-            padding: 24px 32px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-        }
-        
-        .dashboard-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .title-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--light);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-        }
-        
-        .controls {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.95rem;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.2);
-        }
-        
-        .btn-secondary {
-            background: var(--light);
-            color: var(--dark);
-            border: 1px solid var(--border);
-        }
-        
-        .btn-secondary:hover {
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        }
-        
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            height: 700px;
-            background: var(--light);
-            overflow: hidden;
-        }
-        
-        .iframe-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            z-index: 10;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
         }
         
         @keyframes spin {
+            from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         
-        .powerbi-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
+        .spinner {
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #1e3c72;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
         
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            padding: 32px;
-            background: white;
-            border-top: 1px solid var(--border);
+        /* Arreglo para pantalla completa */
+        #dashboardContainer:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
         }
         
-        .stat-card {
-            padding: 24px;
-            background: var(--light);
-            border-radius: 16px;
-            transition: transform 0.3s ease;
+        #dashboardContainer:-moz-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
         }
         
-        .stat-card:hover {
-            transform: translateY(-5px);
+        #dashboardContainer:-ms-fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
         }
         
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--gradient);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin-bottom: 16px;
-            font-size: 1.3rem;
-        }
-        
-        .stat-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-        
-        .stat-desc {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 16px;
-        }
-        
-        .footer-link {
-            color: var(--primary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-link:hover {
-            color: var(--accent);
-        }
-        
-        @media (max-width: 1024px) {
-            .iframe-container {
-                height: 600px;
-            }
-            
-            h1 {
-                font-size: 2.3rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-top {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            
-            .controls {
-                width: 100%;
-                justify-content: flex-start;
-            }
-            
-            .iframe-container {
-                height: 500px;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-                padding: 24px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 16px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .dashboard-header {
-                padding: 20px;
-            }
-            
-            .iframe-container {
-                height: 400px;
-            }
-            
-            .controls {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+        #dashboardContainer:fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3c72',
+                        'primary-light': '#2a5298',
+                        accent: '#00b4d8',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <div class="logo">
-                    <div class="logo-icon">PB</div>
-                    <span>Power BI Analytics</span>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="mb-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="gradient-bg w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
+                        PB
+                    </div>
+                    <span class="text-xl font-semibold text-primary">Power BI Analytics</span>
                 </div>
-                <div class="controls">
-                    <button class="btn btn-secondary" id="toggleStats">
-                        <i class="fas fa-chart-bar"></i> Info
+                <div>
+                    <button id="toggleStats" class="px-5 py-2.5 bg-white border border-gray-200 rounded-xl flex items-center gap-2 text-gray-700 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Mostrar Info</span>
                     </button>
                 </div>
             </div>
            
         </header>
         
-        <main>
-            <div class="dashboard-wrapper">
-                <div class="dashboard-header">
-                    <div class="dashboard-title">
-                        <div class="title-icon">
-                            <i class="fas fa-tachometer-alt"></i>
+        <!-- Dashboard Container -->
+        <main class="mb-12">
+            <div id="dashboardContainer" class="bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-300">
+                <!-- Dashboard Header -->
+                <div class="px-6 py-5 md:px-8 md:py-6 border-b border-gray-100 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5 bg-white">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-gray-50 w-12 h-12 rounded-xl flex items-center justify-center text-primary shadow-inner">
+                            <i class="fas fa-tachometer-alt text-lg"></i>
                         </div>
-                        <span>Análisis de Datos - Informe Interactivo</span>
+                        <h2 class="text-xl md:text-2xl font-bold text-primary">
+                            Análisis de Datos - Informe Interactivo
+                        </h2>
                     </div>
-                    <div class="controls">
-                        <button class="btn btn-secondary" id="refreshBtn">
-                            <i class="fas fa-redo"></i> Actualizar
-                        </button>
-                        <button class="btn btn-primary" id="fullscreenBtn">
-                            <i class="fas fa-expand"></i> Pantalla Completa
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                        
+                        <button id="fullscreenBtn" class="px-5 py-3 gradient-bg text-white rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <i class="fas fa-expand"></i>
+                            <span class="font-medium">Pantalla Completa</span>
                         </button>
                     </div>
                 </div>
                 
-                <div class="iframe-container">
-                    <div class="iframe-loading" id="loading">
-                        <div class="spinner"></div>
-                        <p>Cargando dashboard de Power BI...</p>
+                <!-- Power BI Iframe -->
+                <div class="relative bg-gray-50">
+                    <!-- Loading State -->
+                    <div id="loading" class="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-opacity duration-300">
+                        <div class="spinner w-14 h-14 mb-5"></div>
+                        <p class="text-gray-700 text-lg font-medium">Cargando dashboard de Power BI...</p>
+                        <p class="text-gray-500 text-sm mt-2">Por favor espere un momento</p>
                     </div>
+                    
+                    <!-- Power BI Iframe -->
                     <iframe 
-                        class="powerbi-iframe" 
                         id="powerbiFrame"
+                        class="w-full h-[75vh] min-h-[600px] border-0"
                         src="https://app.powerbi.com/view?r=eyJrIjoiODhjODhjN2ItMTFlYy00M2VjLWE2ZDAtNjAzODc1MzMwMmE1IiwidCI6Ijc5MDVjMWZjLTkzM2MtNDUyYS04YjgzLWIyZTU2NDU1ZDE2YSIsImMiOjR9"
                         title="Power BI Dashboard"
                         allowfullscreen
@@ -398,36 +146,59 @@
                     </iframe>
                 </div>
                 
-                <div class="stats" id="statsSection">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-mouse-pointer"></i>
+                <!-- Info Cards -->
+                <div id="statsSection" class="px-6 py-10 md:px-8 md:py-12 bg-white border-t border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-7 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                        <div class="gradient-bg w-14 h-14 rounded-xl flex items-center justify-center text-white mb-5 shadow-md">
+                            <i class="fas fa-mouse-pointer text-xl"></i>
                         </div>
-                        <h3 class="stat-title">Interactividad Total</h3>
-                        <p class="stat-desc">Haga clic en cualquier gráfico o filtro para explorar los datos en profundidad y descubrir insights.</p>
+                        <h3 class="text-xl font-bold text-primary mb-3">
+                            Interactividad Total
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Haga clic en cualquier gráfico o filtro para explorar los datos en profundidad y descubrir insights valiosos.
+                        </p>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-filter"></i>
+                    
+                    <!-- Card 2 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-7 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                        <div class="gradient-bg w-14 h-14 rounded-xl flex items-center justify-center text-white mb-5 shadow-md">
+                            <i class="fas fa-filter text-xl"></i>
                         </div>
-                        <h3 class="stat-title">Filtros Dinámicos</h3>
-                        <p class="stat-desc">Utilice los filtros interactivos para personalizar la vista y analizar diferentes segmentos de datos.</p>
+                        <h3 class="text-xl font-bold text-primary mb-3">
+                            Filtros Dinámicos
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Utilice los filtros interactivos para personalizar la vista y analizar diferentes segmentos de datos según sus necesidades.
+                        </p>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-sync-alt"></i>
+                    
+                    <!-- Card 3 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-7 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                        <div class="gradient-bg w-14 h-14 rounded-xl flex items-center justify-center text-white mb-5 shadow-md">
+                            <i class="fas fa-sync-alt text-xl"></i>
                         </div>
-                        <h3 class="stat-title">Actualización en Tiempo Real</h3>
-                        <p class="stat-desc">Los datos se actualizan automáticamente según la programación configurada en Power BI Service.</p>
+                        <h3 class="text-xl font-bold text-primary mb-3">
+                            Actualización en Tiempo Real
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Los datos se actualizan automáticamente según la programación configurada en Power BI Service, garantizando información actualizada.
+                        </p>
                     </div>
                 </div>
             </div>
         </main>
         
-        <footer>
-           
-            <p>© 2026 Power BI Dashboard | Plataforma de Visualización de Datos</p>
-            <p>DGOS-DIMON</p>
+        <!-- Footer -->
+        <footer class="text-center pt-10 border-t border-gray-200">
+            
+            <p class="text-gray-700 mb-2 font-medium">
+                © 2026 Power BI Dashboard | Plataforma de Visualización de Datos
+            </p>
+            <p class="text-gray-500">
+                DGOS-DIMON
+            </p>
         </footer>
     </div>
 
@@ -435,94 +206,176 @@
         document.addEventListener('DOMContentLoaded', function() {
             const powerbiFrame = document.getElementById('powerbiFrame');
             const loading = document.getElementById('loading');
-            const refreshBtn = document.getElementById('refreshBtn');
             const fullscreenBtn = document.getElementById('fullscreenBtn');
             const toggleStatsBtn = document.getElementById('toggleStats');
             const statsSection = document.getElementById('statsSection');
+            const dashboardContainer = document.getElementById('dashboardContainer');
+            
+            // Estado de pantalla completa
+            let isFullscreen = false;
             
             // Ocultar loading cuando el iframe cargue
             powerbiFrame.addEventListener('load', function() {
                 setTimeout(() => {
-                    loading.style.opacity = '0';
-                    loading.style.pointerEvents = 'none';
+                    loading.classList.add('opacity-0');
                     setTimeout(() => {
-                        loading.style.display = 'none';
+                        loading.classList.add('hidden');
                     }, 300);
-                }, 500);
+                }, 800);
             });
             
-            // Botón para actualizar
-            refreshBtn.addEventListener('click', function() {
-                loading.style.display = 'flex';
-                loading.style.opacity = '1';
-                powerbiFrame.contentWindow.location.reload();
+            // Función para entrar en pantalla completa CORREGIDA
+            function enterFullscreen() {
+                if (dashboardContainer.requestFullscreen) {
+                    dashboardContainer.requestFullscreen();
+                } else if (dashboardContainer.mozRequestFullScreen) {
+                    dashboardContainer.mozRequestFullScreen();
+                } else if (dashboardContainer.webkitRequestFullscreen) {
+                    dashboardContainer.webkitRequestFullscreen();
+                } else if (dashboardContainer.msRequestFullscreen) {
+                    dashboardContainer.msRequestFullscreen();
+                }
                 
-                // Animación del botón
-                refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando';
+                // Ajustar tamaño del iframe en pantalla completa
                 setTimeout(() => {
-                    refreshBtn.innerHTML = '<i class="fas fa-redo"></i> Actualizar';
-                }, 1500);
-            });
+                    adjustIframeHeight();
+                }, 100);
+            }
             
-            // Botón para pantalla completa
+            // Función para salir de pantalla completa
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+            
+            // Botón para pantalla completa - VERSIÓN SIMPLIFICADA Y FUNCIONAL
             fullscreenBtn.addEventListener('click', function() {
-                const container = document.querySelector('.iframe-container');
+                if (!document.fullscreenElement && 
+                    !document.webkitFullscreenElement && 
+                    !document.mozFullScreenElement && 
+                    !document.msFullscreenElement) {
+                    
+                    // Entrar en pantalla completa
+                    enterFullscreen();
+                    
+                    // Cambiar texto del botón
+                    fullscreenBtn.innerHTML = `
+                        <i class="fas fa-compress"></i>
+                        <span class="font-medium">Salir Pantalla Completa</span>
+                    `;
+                    
+                    isFullscreen = true;
+                } else {
+                    // Salir de pantalla completa
+                    exitFullscreen();
+                    
+                    // Restaurar texto del botón
+                    fullscreenBtn.innerHTML = `
+                        <i class="fas fa-expand"></i>
+                        <span class="font-medium">Pantalla Completa</span>
+                    `;
+                    
+                    isFullscreen = false;
+                }
                 
-                if (!document.fullscreenElement) {
-                    if (container.requestFullscreen) {
-                        container.requestFullscreen();
-                    } else if (container.webkitRequestFullscreen) {
-                        container.webkitRequestFullscreen();
-                    }
-                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Salir Pantalla Completa';
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
-                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Pantalla Completa';
-                }
+                // Ajustar altura después del cambio
+                setTimeout(adjustIframeHeight, 150);
             });
             
-            // Toggle sección de estadísticas
-            toggleStatsBtn.addEventListener('click', function() {
-                statsSection.classList.toggle('hidden');
-                if (statsSection.style.display === 'none') {
-                    statsSection.style.display = 'grid';
-                    toggleStatsBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Ocultar Info';
+            // Detectar cambios en pantalla completa
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+            
+            function handleFullscreenChange() {
+                const isCurrentlyFullscreen = !!(document.fullscreenElement || 
+                                                document.webkitFullscreenElement || 
+                                                document.mozFullScreenElement || 
+                                                document.msFullscreenElement);
+                
+                if (isCurrentlyFullscreen) {
+                    isFullscreen = true;
+                    fullscreenBtn.innerHTML = `
+                        <i class="fas fa-compress"></i>
+                        <span class="font-medium">Salir Pantalla Completa</span>
+                    `;
                 } else {
-                    statsSection.style.display = 'none';
-                    toggleStatsBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Mostrar Info';
+                    isFullscreen = false;
+                    fullscreenBtn.innerHTML = `
+                        <i class="fas fa-expand"></i>
+                        <span class="font-medium">Pantalla Completa</span>
+                    `;
                 }
-            });
-            
-            // Detectar salida de pantalla completa
-            document.addEventListener('fullscreenchange', updateFullscreenButton);
-            document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
-            
-            function updateFullscreenButton() {
-                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Pantalla Completa';
-                }
+                
+                adjustIframeHeight();
             }
             
             // Ajustar altura del iframe dinámicamente
             function adjustIframeHeight() {
-                const iframeContainer = document.querySelector('.iframe-container');
-                const windowHeight = window.innerHeight;
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const dashboardHeaderHeight = document.querySelector('.dashboard-header').offsetHeight;
-                
-                const newHeight = windowHeight - headerHeight - dashboardHeaderHeight - 180;
-                if (newHeight > 400) {
-                    iframeContainer.style.height = `${newHeight}px`;
+                if (isFullscreen) {
+                    // En pantalla completa: usar 90% de la altura de la ventana
+                    const windowHeight = window.innerHeight;
+                    const dashboardHeader = document.querySelector('.dashboard-header');
+                    const headerHeight = dashboardHeader ? dashboardHeader.offsetHeight : 80;
+                    
+                    // Calcular altura máxima para el iframe
+                    const maxHeight = windowHeight - headerHeight - 40; // 40px de margen
+                    
+                    if (maxHeight > 400) {
+                        powerbiFrame.style.height = `${maxHeight}px`;
+                        powerbiFrame.classList.remove('min-h-[600px]');
+                    }
+                } else {
+                    // Modo normal: altura por defecto
+                    powerbiFrame.style.height = '75vh';
+                    powerbiFrame.classList.add('min-h-[600px]');
                 }
             }
             
-            // Ajustar altura al cargar y redimensionar
-            window.addEventListener('load', adjustIframeHeight);
+            // Toggle sección de estadísticas
+            toggleStatsBtn.addEventListener('click', function() {
+                if (statsSection.classList.contains('hidden')) {
+                    statsSection.classList.remove('hidden');
+                    toggleStatsBtn.innerHTML = `
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Ocultar Info</span>
+                    `;
+                } else {
+                    statsSection.classList.add('hidden');
+                    toggleStatsBtn.innerHTML = `
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Mostrar Info</span>
+                    `;
+                }
+            });
+            
+            // Ajustar altura al redimensionar la ventana
             window.addEventListener('resize', adjustIframeHeight);
+            
+            // Ajustar altura inicial
+            setTimeout(adjustIframeHeight, 100);
+            
+            // Ocultar info cards en móviles por defecto
+            if (window.innerWidth < 768) {
+                statsSection.classList.add('hidden');
+                toggleStatsBtn.innerHTML = `
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Mostrar Info</span>
+                `;
+            }
+            
+            // También ajustar al cambiar orientación en móviles
+            window.addEventListener('orientationchange', function() {
+                setTimeout(adjustIframeHeight, 300);
+            });
         });
     </script>
 </body>
