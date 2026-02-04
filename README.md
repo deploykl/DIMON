@@ -1,4 +1,4 @@
-# Pipeline ETL Automatizado - Sistema DIMON
+# Pipeline ETL Automatizado - DIMON
 
 ## Descripción
 Pipeline ETL automatizado para la carga de información operativa del sistema DIMON. Extrae datos de múltiples fuentes, estandariza variables críticas y consolida la información en PostgreSQL.
